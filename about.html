@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关于我</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" />
+    
+    <!-- 隐藏的SVG滤镜 -->
+    <svg width="0" height="0" style="position:absolute;">
+        <filter id="water-wave">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.015" numOctaves="2" result="noise">
+                <animate attributeName="baseFrequency" dur="12s" values="0.01 0.015;0.015 0.01;0.01 0.015" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+        body {
+            font-family: "LXGW WenKai", "霞鹜文楷", sans-serif;
+            color: #fff; font-weight: 600;
+            height: 100vh; display: flex; align-items: center; justify-content: center; padding: 0.5rem;
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            transition: opacity 0.4s ease;
+        }
+        body.fade-out { opacity: 0; }
+        
+        .bg { 
+            position: fixed; inset: 0; z-index: -1; 
+            background: url('https://bee-oss-ab.imglnk.cn/u/20260827/e8c96f04b38602ff1f99af7791b3bb0c.png') center/cover no-repeat; 
+            filter: url(#water-wave);
+        }
+        
+        .container {
+            max-width: 640px; width: 100%; max-height: 95vh;
+            border: 1px solid rgba(255, 255, 255, 0.3); padding: 2.5rem 1.5rem;
+            background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+        .container:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+
+        h1, p, .divider, .nav-grid, .footer { opacity: 0; animation: fadeInUp 0.8s forwards; }
+        h1 { font-size: 2rem; font-weight: 900; text-align: center; margin-bottom: 1.5rem; animation-delay: 0.3s; }
+        
+        .content { 
+            text-align: center; 
+            margin: 0 auto 2rem auto; 
+            font-size: 0.95rem; 
+            line-height: 1.8; 
+            animation-delay: 0.6s; 
+        }
+        .content span { font-weight: 800; }
+        .content p { text-align: center; margin-bottom: 0.6rem; }
+        
+        .divider { width: 40px; height: 2px; background: rgba(255, 255, 255, 0.8); margin: 0 auto 2rem auto; animation-delay: 0.9s; }
+        .nav-grid { display: flex; justify-content: center; gap: 0.6rem; opacity: 0; animation-delay: 1.2s; }
+        a { display: block; padding: 0.7rem 1.5rem; text-align: center; text-decoration: none; color: #fff; font-weight: 700; border: 1px solid rgba(255, 255, 255, 0.6); background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(5px); transition: background 0.2s, color 0.2s, transform 0.2s; }
+        a:hover { background: #fff; color: #000; }
+        .footer { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid rgba(255, 255, 255, 0.4); text-align: center; font-size: 0.8rem; animation-delay: 1.5s; }
+        .footer a { display: inline; padding: 0; border: none; background: transparent; color: #fff; text-decoration: underline; }
+        .footer a:hover { background: transparent; color: #fff; text-decoration: none; transform: none; }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="container">
+        <h1>关于我</h1>
+        <div class="content">
+            <p>一个生存在互联网边缘的青年，会点编程，会点设计，</p>
+            <p>会点泡妞，人生已经趋近于完美，就是没有钱。</p>
+        </div>
+        <div class="divider"></div>
+        <div class="nav-grid">
+            <a href="index.html" data-transition>返回主页</a>
+            <a href="mailto:2663910155@qq.com">联系我</a>
+        </div>
+
+        <div class="footer">
+            <span>© 2026 红岸 · </span>
+            <a href="https://space.bilibili.com/2019416471?spm_id_from=333.1007.0.0">Bilibili</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[data-transition]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = link.href; }, 400);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
