@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>红岸·项目总结</title>
+    
+    <link rel="icon" type="image/png" href="https://bee-oss-ab.imglnk.cn/u/20260827/0f430c340293a62054d2800aaeb0c475.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" />
+    
+    <!-- 隐藏的SVG滤镜 -->
+    <svg width="0" height="0" style="position:absolute;">
+        <filter id="water-wave">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.015" numOctaves="2" result="noise">
+                <animate attributeName="baseFrequency" dur="12s" values="0.01 0.015;0.015 0.01;0.01 0.015" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* 修改：允许垂直滚动，取消隐藏 */
+        html, body { 
+            height: auto; 
+            min-height: 100%;
+            overflow-x: hidden; 
+            overflow-y: auto; 
+        }
+        
+        body {
+            font-family: "LXGW WenKai", "霞鹜文楷", "Kaiti SC", sans-serif;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.5;
+            /* 修改：min-height保证占满屏幕，padding保证上下留白 */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0.5rem; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            transition: opacity 0.4s ease;
+        }
+        body.fade-out { opacity: 0; }
+
+        /* 自定义优雅极简滚动条 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.6); }
+
+        .bg-pixel-art {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('https://bee-oss-ab.imglnk.cn/u/20260827/e8c96f04b38602ff1f99af7791b3bb0c.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: url(#water-wave);
+        }
+
+        .container {
+            max-width: 640px;
+            width: 100%;
+            /* 修改：取消高度限制，让内容自然撑开 */
+            max-height: none; 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2.5rem 1.5rem;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            margin: 1rem auto; /* 确保滚动时上下有适当的留白 */
+        }
+
+        h1, .divider, .project-list, .nav-grid, .footer {
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+
+        .name {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-align: center;
+            margin-bottom: 2rem;
+            animation-delay: 0.2s;
+        }
+
+        .divider {
+            width: 40px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 2rem auto;
+            border: none;
+            animation-delay: 0.5s;
+        }
+
+        .project-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            animation-delay: 0.8s;
+        }
+
+        .project-tile {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: calc(50% - 0.4rem);
+            padding: 1.2rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            text-decoration: none;
+            color: #ffffff;
+            letter-spacing: 0.02em;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+
+        .project-tile:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            border-color: #ffffff;
+            transform: translateY(-4px) rotate(-1.5deg);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-tile .title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .project-tile .year {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            opacity: 0.7;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            max-width: 240px;
+            margin: 0 auto;
+            gap: 0.6rem;
+            animation-delay: 1.1s;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: background 0.2s ease, color 0.2s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus {
+            background: #ffffff; 
+            color: #000000;
+            border-color: #ffffff;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            animation-delay: 1.4s;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .footer a:hover {
+            text-decoration: none;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-pixel-art"></div>
+
+    <div class="container">
+        <h1 class="name">项目总结</h1>
+        <div class="divider" aria-hidden="true"></div>
+
+        <div class="project-list">
+            <!-- 第一项 -->
+            <a href="http://hongan.asia/restartlife/" target="_blank" class="project-tile">
+                <span class="title">人生重开模拟器</span>
+                <span class="year">2023年</span>
+            </a>
+            
+            <!-- 第二项 -->
+            <a href="https://hongan.asia/lunch-eat/" target="_blank" class="project-tile">
+                <span class="title">中午吃什么？</span>
+                <span class="year">2023年</span>
+            </a>
+
+            <!-- 第三项 -->
+            <a href="http://hongan.asia/Broken-wall/" target="_blank" class="project-tile">
+                <span class="title">破墙解压小游戏</span>
+                <span class="year">2023年</span>
+            </a>
+
+            <!-- 第四项 -->
+            <a href="http://hongan.asia/battle-city/" target="_blank" class="project-tile">
+                <span class="title">经典1990坦克</span>
+                <span class="year">2023年</span>
+            </a>
+
+            <!-- 第五项 -->
+            <a href="http://hongan.asia/react-tetris/" target="_blank" class="project-tile">
+                <span class="title">俄罗斯方块</span>
+                <span class="year">2023年</span>
+            </a>
+
+            <!-- 第六项 -->
+            <a href="https://hongan.asia/rainbow-galaxy/" target="_blank" class="project-tile">
+                <span class="title">彩虹星系可视化解压</span>
+                <span class="year">2023年</span>
+            </a>
+
+            <!-- 第七项 -->
+            <a href="https://hongan.asia/zituhua/" target="_blank" class="project-tile">
+                <span class="title">“字”画，以字成画</span>
+                <span class="year">2023年</span>
+            </a>
+
+            <!-- 第八项 -->
+            <a href="https://qm.qq.com/q/giIOJAYCgE" target="_blank" class="project-tile">
+                <span class="title">明日方舟肉鸽群</span>
+                <span class="year">2026年</span>
+            </a>
+
+            <!-- 第九项 -->
+            <a href="https://qm.qq.com/q/OKHeMKYb6u" target="_blank" class="project-tile">
+                <span class="title">明日方舟卫戍协议群</span>
+                <span class="year">2026年</span>
+            </a>
+        </div>
+
+        <div class="nav-grid">
+            <a href="index.html" class="nav-link" data-transition>返回主页</a>
+        </div>
+
+        <div class="footer">
+            <span>© 2026 红岸 · </span>
+            <a href="https://space.bilibili.com/2019416471?spm_id_from=333.1007.0.0">Bilibili</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[data-transition]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = link.href; }, 400);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
